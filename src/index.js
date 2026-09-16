@@ -18,16 +18,16 @@ function Header() {
   );
 }
 
-function Pizza(props) {
-  if (props.pizzaObj.soldOut) return null;
+function Pizza({ pizzaObj }) {
+  if (pizzaObj.soldOut) return null;
 
   return (
     <li className="pizza">
-      <img src={props.pizzaObj.photoName} alt={props.pizzaObj.name} />
+      <img src={pizzaObj.photoName} alt={pizzaObj.name} />
       <div>
-        <h3>{props.pizzaObj.name}</h3>
-        <p>{props.pizzaObj.ingredients}</p>
-        <span>${props.pizzaObj.price.toFixed(2)}</span>
+        <h3>{pizzaObj.name}</h3>
+        <p>{pizzaObj.ingredients}</p>
+        <span>${pizzaObj.price.toFixed(2)}</span>
       </div>
     </li>
   );
@@ -75,22 +75,21 @@ function Footer() {
   );
 }
 
-function Order(props) {
-  return props.isOpen ? (
+function Order({ isOpen, todayDate, currentTime, openHour, closeHour }) {
+  return isOpen ? (
     <div className="order">
-      <p>{`${props.todayDate} ${props.currentTime}.`}</p>
+      <p>{`${todayDate} ${currentTime}.`}</p>
       <p>
-        We're currently open until {props.closeHour}:00. Come visit us or order
+        We're currently open until {closeHour}:00. Come visit us or order
         online.
       </p>
       <button className="btn">Order Now</button>
     </div>
   ) : (
     <div className="order">
-      <p>{`${props.todayDate} ${props.currentTime}.`}</p>
+      <p>{`${todayDate} ${currentTime}.`}</p>
       <p>
-        We're happy to welcome you between {props.openHour}:00 and{" "}
-        {props.closeHour}
+        We're happy to welcome you between {openHour}:00 and {closeHour}
         :00. Come visit us or order online.
       </p>
       {/* <button className="btn">Order Now</button> */}
