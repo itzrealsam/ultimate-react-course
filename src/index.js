@@ -19,15 +19,18 @@ function Header() {
 }
 
 function Pizza({ pizzaObj }) {
-  if (pizzaObj.soldOut) return null;
+  // if (pizzaObj.soldOut) return null;
+  const isSoldOut = pizzaObj.soldOut ? "sold-out" : "";
 
   return (
-    <li className="pizza">
+    <li className={`pizza ${isSoldOut}`}>
       <img src={pizzaObj.photoName} alt={pizzaObj.name} />
       <div>
         <h3>{pizzaObj.name}</h3>
         <p>{pizzaObj.ingredients}</p>
-        <span>${pizzaObj.price.toFixed(2)}</span>
+        <span>
+          {pizzaObj.soldOut ? "SOLD OUT" : `$${pizzaObj.price.toFixed(2)}`}
+        </span>
       </div>
     </li>
   );
