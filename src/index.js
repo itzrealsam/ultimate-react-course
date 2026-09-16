@@ -64,26 +64,37 @@ function Footer() {
 
   return (
     <footer className="footer">
-      {isOpen ? (
-        <div className="order">
-          <p>{`${todayDate} ${currentTime}.`}</p>
-          <p>
-            We're currently open until {closeHour}:00. Come visit us or order
-            online.
-          </p>
-          <button className="btn">Order Now</button>
-        </div>
-      ) : (
-        <div className="order">
-          <p>{`${todayDate} ${currentTime}.`}</p>
-          <p>
-            We're happy to welcome you between {openHour}:00 and {closeHour}
-            :00. Come visit us or order online.
-          </p>
-          {/* <button className="btn">Order Now</button> */}
-        </div>
-      )}
+      <Order
+        isOpen={isOpen}
+        todayDate={todayDate}
+        currentTime={currentTime}
+        openHour={openHour}
+        closeHour={closeHour}
+      />
     </footer>
+  );
+}
+
+function Order(props) {
+  return props.isOpen ? (
+    <div className="order">
+      <p>{`${props.todayDate} ${props.currentTime}.`}</p>
+      <p>
+        We're currently open until {props.closeHour}:00. Come visit us or order
+        online.
+      </p>
+      <button className="btn">Order Now</button>
+    </div>
+  ) : (
+    <div className="order">
+      <p>{`${props.todayDate} ${props.currentTime}.`}</p>
+      <p>
+        We're happy to welcome you between {props.openHour}:00 and{" "}
+        {props.closeHour}
+        :00. Come visit us or order online.
+      </p>
+      {/* <button className="btn">Order Now</button> */}
+    </div>
   );
 }
 
