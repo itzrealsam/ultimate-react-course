@@ -8,7 +8,6 @@ export default function App() {
   }
 
   function handleDeleteItem(id) {
-    console.log(id);
     setItems((items) => items.filter((item) => item.id !== id));
   }
 
@@ -17,7 +16,6 @@ export default function App() {
       prevItems.map((item) => {
         if (item.id === id) {
           const updatedItem = { ...item, packed: !item.packed };
-          console.log("Updated item:", updatedItem); // Correctly logs the new object state
           return updatedItem;
         }
         return item;
@@ -66,8 +64,6 @@ function Form({ onAddItem }) {
       quantity,
       packed: false,
     };
-
-    console.log(newItem);
 
     onAddItem(newItem);
 
