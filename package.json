@@ -1,0 +1,7 @@
+{
+  "name": "ultimate-react-course-monorepo",
+  "private": true,
+  "workspaces": [
+    "projects/*"
+  ]
+}
