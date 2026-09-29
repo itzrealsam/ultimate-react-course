@@ -105,13 +105,13 @@ function NumResults({ movies }) {
 function Main({ movies }) {
   return (
     <main className="main">
-      <SearchList movies={movies} />
+      <SearchBox movies={movies} />
       <WatchedBox />
     </main>
   );
 }
 
-function SearchList({ movies }) {
+function SearchBox({ movies }) {
   const [isOpen1, setIsOpen1] = useState(true);
 
   return (
@@ -122,14 +122,18 @@ function SearchList({ movies }) {
       >
         {isOpen1 ? "–" : "+"}
       </button>
-      {isOpen1 && (
-        <ul className="list">
-          {movies?.map((movie) => (
-            <Movie movie={movie} key={movie.imdbID} />
-          ))}
-        </ul>
-      )}
+      {isOpen1 && <SearchMovieList movies={movies} />}
     </div>
+  );
+}
+
+function SearchMovieList({ movies }) {
+  return (
+    <ul className="list">
+      {movies?.map((movie) => (
+        <Movie movie={movie} key={movie.imdbID} />
+      ))}
+    </ul>
   );
 }
 
