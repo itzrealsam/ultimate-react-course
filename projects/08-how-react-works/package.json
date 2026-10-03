@@ -2,6 +2,7 @@
   "name": "how-react-works",
   "version": "0.1.0",
   "private": true,
+  "homepage": "https://itzrealsam.github.io/ultimate-react-course/projects/08-how-react-works",
   "dependencies": {
     "@testing-library/jest-dom": "^5.16.4",
     "@testing-library/react": "^13.2.0",

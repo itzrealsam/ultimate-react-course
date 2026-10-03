@@ -2,6 +2,7 @@
   "name": "pizza-menu",
   "version": "0.1.0",
   "private": true,
+  "homepage": "https://itzrealsam.github.io/ultimate-react-course/projects/03-pizza-menu",
   "dependencies": {
     "@testing-library/dom": "^10.4.1",
     "@testing-library/jest-dom": "^6.9.1",

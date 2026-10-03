@@ -1,0 +1,58 @@
+name: Deploy Monorepo to GitHub Pages
+
+on:
+  push:
+    branches:
+      - main
+
+permissions:
+  contents: read
+  pages: write
+  id-token: write
+
+concurrency:
+  group: "pages"
+  cancel-in-progress: true
+
+jobs:
+  build-and-deploy:
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout Repository
+        uses: actions/checkout@v4
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: 20
+          cache: "npm"
+
+      - name: Install Workspace Dependencies
+        run: npm ci
+
+      - name: Build All Projects
+        run: npm run build --workspaces --if-present
+
+      - name: Assemble Static Site Folder
+        run: |
+          mkdir -p public/projects
+          cp index.html public/ 2>/dev/null || true
+          for dir in projects/*/; do
+            proj=$(basename "$dir")
+            if [ -d "$dir/build" ]; then
+              cp -r "$dir/build" "public/projects/$proj"
+            fi
+          done
+
+      - name: Upload GitHub Pages Artifact
+        uses: actions/upload-pages-artifact@v3
+        with:
+          path: "./public"
+
+      - name: Deploy to GitHub Pages
+        id: deployment
+        uses: actions/deploy-pages@v4
