@@ -102,11 +102,11 @@ export default function App() {
           setMovies(data.Search);
           setError("");
         } catch (err) {
-          console.error(err.message);
-
           if (err.name !== "AbortError") {
             setError(err.message);
           }
+
+          console.log(err.message);
         } finally {
           setIsLoading(false);
         }
@@ -118,6 +118,7 @@ export default function App() {
         return;
       }
 
+      handleCloseMovie();
       fetchMovies();
     },
     [searchTerm],
@@ -302,6 +303,20 @@ function MovieDetails({ selectedId, onCloseMovie, onAddWatched, watched }) {
       document.title = "usePopcorn";
     };
   }, [title]);
+
+  useEffect(() => {
+    function callback(e) {
+      if (e.code === "Escape") {
+        onCloseMovie();
+      }
+    }
+
+    document.addEventListener("keydown", callback);
+
+    return function () {
+      document.removeEventListener("keydown", callback);
+    };
+  }, [onCloseMovie]);
 
   useEffect(() => {
     async function getMovieDetails() {
