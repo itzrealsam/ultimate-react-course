@@ -1,8 +1,13 @@
 import { useEffect, useRef, useState } from "react";
 import StarRating from "./StarRating";
 
-const average = (arr) =>
-  arr.reduce((acc, cur, i, arr) => acc + cur / arr.length, 0);
+const average = (arr) => {
+  const validNumbers = arr.filter(Number.isFinite);
+
+  return validNumbers.length
+    ? validNumbers.reduce((acc, cur) => acc + cur, 0) / validNumbers.length
+    : 0;
+};
 
 const KEY = "5030de9";
 
@@ -10,20 +15,24 @@ export default function App() {
   const [query, setQuery] = useState("");
   const [movies, setMovies] = useState([]);
   const [watched, setWatched] = useState(() => {
-    const storedData = localStorage.getItem("watched");
-    return storedData ? JSON.parse(storedData) : [];
+    try {
+      const storedData = localStorage.getItem("watched");
+      return storedData ? JSON.parse(storedData) : [];
+    } catch {
+      return [];
+    }
   });
   const [isLoading, setIsLoading] = useState(false);
   const [error, setError] = useState("");
-  const [selectedId, setSelectedID] = useState("");
+  const [selectedId, setSelectedId] = useState("");
   const searchTerm = query.trim();
 
   function handleSelectMovie(id) {
-    setSelectedID((selectedId) => (selectedId === id ? "" : id));
+    setSelectedId((selectedId) => (selectedId === id ? "" : id));
   }
 
   function handleCloseMovie() {
-    setSelectedID("");
+    setSelectedId("");
   }
 
   function handleAddWatched(movie) {
@@ -43,7 +52,15 @@ export default function App() {
 
   useEffect(
     function () {
-      const controller = new AbortController();
+      // const controller = new AbortController();
+      let ignore = false;
+
+      if (searchTerm.length < 3) {
+        setMovies([]);
+        setError("");
+        setIsLoading(false);
+        return;
+      }
 
       async function fetchMovies() {
         try {
@@ -52,7 +69,7 @@ export default function App() {
 
           const res = await fetch(
             `https://www.omdbapi.com/?apikey=${KEY}&s=${searchTerm}`,
-            { signal: controller.signal },
+            // { signal: controller.signal },
           );
 
           if (!res.ok)
@@ -60,29 +77,35 @@ export default function App() {
 
           const data = await res.json();
 
-          if (data.Response === "False") throw new Error("Movie not found");
+          if (data.Response === "False")
+            throw new Error(data.Error || "Movie not found");
 
-          setMovies(data.Search);
-          setError("");
-        } catch (err) {
-          if (err.name !== "AbortError") {
-            setError(err.message);
+          if (!ignore) {
+            setMovies(data.Search);
           }
-
-          console.log(err.message);
+        } catch (err) {
+          // if (err.name === "AbortError") return;
+          if (!ignore) {
+            setError(err.message);
+            console.log(err.message);
+          }
         } finally {
-          setIsLoading(false);
+          // if (!controller.signal.aborted) {}
+          if (!ignore) {
+            setIsLoading(false);
+          }
         }
-      }
-
-      if (searchTerm.length < 3) {
-        setMovies([]);
-        setError("");
-        return;
       }
 
       handleCloseMovie();
       fetchMovies();
+
+      return function () {
+        ignore = true;
+      };
+      // return function () {
+      //   controller.abort();
+      // };
     },
     [searchTerm],
   );
@@ -248,6 +271,7 @@ function MovieDetails({ selectedId, onCloseMovie, onAddWatched, watched }) {
   const [movie, setMovie] = useState({});
   const [isLoading, setIsLoading] = useState(false);
   const [userRating, setUserRating] = useState("");
+  const userRatingHistory = useRef([]);
 
   const isWatched = watched.map((movie) => movie.imdbID).includes(selectedId);
   const watchedUserRating = watched.find(
@@ -273,9 +297,11 @@ function MovieDetails({ selectedId, onCloseMovie, onAddWatched, watched }) {
       title,
       year,
       poster,
-      imdbRating: Number(imdbRating),
-      runtime: Number(runtime.split(" ").at(0)),
-      userRating,
+      imdbRating: imdbRating !== "N/A" ? Number(imdbRating) : null,
+      runtime: runtime !== "N/A" ? Number(runtime.split(" ").at(0)) : null,
+      userRating: Number(userRating),
+      userRatingDecision: userRatingHistory.current.length,
+      userRatingHistory: userRatingHistory.current,
     };
 
     onAddWatched(newWatchedMovie);
@@ -283,13 +309,27 @@ function MovieDetails({ selectedId, onCloseMovie, onAddWatched, watched }) {
   }
 
   useEffect(() => {
+    if (userRating) {
+      const userCurrentRating = {
+        time: new Date().getTime(),
+        rating: userRating,
+      };
+
+      userRatingHistory.current = [
+        ...userRatingHistory.current,
+        userCurrentRating,
+      ];
+    }
+  }, [userRating]);
+
+  useEffect(() => {
     if (!title) return;
-    document.title = `Movie | ${title}`;
+    document.title = `Movie | ${title} ${userRating ? `- You rated ${userRating}⭐️` : ""}`;
 
     return function () {
       document.title = "usePopcorn";
     };
-  }, [title]);
+  }, [title, userRating]);
 
   useEffect(() => {
     function callback(e) {
@@ -307,14 +347,31 @@ function MovieDetails({ selectedId, onCloseMovie, onAddWatched, watched }) {
 
   useEffect(() => {
     async function getMovieDetails() {
-      setIsLoading(true);
-      const res = await fetch(
-        `https://www.omdbapi.com/?apikey=${KEY}&i=${selectedId}`,
-      );
-      const data = await res.json();
-      setMovie(data);
-      setIsLoading(false);
+      try {
+        setIsLoading(true);
+
+        const res = await fetch(
+          `https://www.omdbapi.com/?apikey=${KEY}&i=${selectedId}`,
+        );
+
+        if (!res.ok) {
+          throw new Error("Failed to fetch movie details");
+        }
+
+        const data = await res.json();
+
+        if (data.Response === "False") {
+          throw new Error(data.Error || "Movie not found");
+        }
+
+        setMovie(data);
+      } catch (err) {
+        console.error(err);
+      } finally {
+        setIsLoading(false);
+      }
     }
+
     getMovieDetails();
   }, [selectedId]);
 
