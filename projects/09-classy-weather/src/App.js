@@ -34,16 +34,23 @@ function formatDay(dateStr) {
 
 class App extends React.Component {
   state = {
-    location: "lisbon",
+    location: "",
     displayLocation: "",
-    loading: false,
+    isLoading: false,
     error: null,
     weather: {},
   };
 
   fetchWeather = async () => {
-    this.setState({ loading: true, error: null });
+    if (this.state.location.length < 2)
+      return this.setState({
+        error: "Location must be at least 2 characters long",
+        weather: {},
+      });
+
     try {
+      this.setState({ isLoading: true, error: null });
+
       // 1) Getting location (geocoding)
       const geoRes = await fetch(
         `https://geocoding-api.open-meteo.com/v1/search?name=${this.state.location}`,
@@ -66,16 +73,32 @@ class App extends React.Component {
       const weatherData = await weatherRes.json();
       this.setState({ weather: weatherData.daily });
     } catch (err) {
-      this.setState({ error: err.message });
+      this.setState({ error: err.message, weather: {} });
       console.error(err, err.message);
     } finally {
-      this.setState({ loading: false });
+      this.setState({ isLoading: false });
     }
   };
 
   handleInputChange = (event) => {
     this.setState({ location: event.target.value });
   };
+
+  // ueseEffect []
+  componentDidMount() {
+    this.fetchWeather();
+
+    this.setState({ location: localStorage.getItem("location") || "" });
+  }
+
+  //useEffect [location]
+  componentDidUpdate(prevProps, prevState) {
+    if (prevState.location !== this.state.location) {
+      this.fetchWeather();
+
+      localStorage.setItem("location", this.state.location);
+    }
+  }
 
   render() {
     return (
@@ -87,9 +110,9 @@ class App extends React.Component {
             onInputChange={this.handleInputChange}
           />
         </div>
-        <button onClick={this.fetchWeather}>Get Weather</button>
+        {/* <button onClick={this.fetchWeather}>Get Weather</button> */}
 
-        {this.state.loading && <p>Loading...</p>}
+        {this.state.isLoading && <p>Loading...</p>}
         {this.state.error && <p>Error: {this.state.error}</p>}
 
         {this.state.weather.weathercode && (
@@ -119,6 +142,14 @@ class Input extends React.Component {
 }
 
 class Weather extends React.Component {
+  componentDidMount() {
+    console.log("Weather component mounted");
+  }
+
+  componentWillUnmount() {
+    console.log("Weather component unmounted");
+  }
+
   render() {
     const {
       weathercode: codes,
