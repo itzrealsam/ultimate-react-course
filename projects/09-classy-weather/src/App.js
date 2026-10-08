@@ -40,7 +40,7 @@ class App extends React.Component {
       displayLocation: "",
       loading: false,
       error: null,
-      weather: null,
+      weather: {},
     };
     this.fetchWeather = this.fetchWeather.bind(this);
   }
@@ -93,9 +93,61 @@ class App extends React.Component {
 
         {this.state.loading && <p>Loading...</p>}
         {this.state.error && <p>Error: {this.state.error}</p>}
+
+        {this.state.weather.weathercode && (
+          <Weather
+            weather={this.state.weather}
+            displayLocation={this.state.displayLocation}
+          />
+        )}
       </div>
     );
   }
 }
 
 export default App;
+
+class Weather extends React.Component {
+  render() {
+    const {
+      weathercode: codes,
+      temperature_2m_max: max,
+      temperature_2m_min: min,
+      time: dates,
+    } = this.props.weather;
+
+    return (
+      <div>
+        <h2>Weather {this.props.displayLocation}</h2>
+        <ul className="weather">
+          {dates.map((date, index) => (
+            <Day
+              key={date}
+              code={codes[index]}
+              dates={date}
+              isToday={index === 0}
+              min={min[index]}
+              max={max[index]}
+            />
+          ))}
+        </ul>
+      </div>
+    );
+  }
+}
+
+class Day extends React.Component {
+  render() {
+    const { code, dates, isToday, min, max } = this.props;
+
+    return (
+      <li className="day">
+        <span>{getWeatherIcon(code)}</span>
+        <p>{isToday ? "Today" : formatDay(dates)}</p>
+        <p>
+          {Math.floor(min)}&deg; &mdash; <strong>{Math.ceil(max)}&deg;</strong>
+        </p>
+      </li>
+    );
+  }
+}
