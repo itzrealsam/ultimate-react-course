@@ -44,7 +44,7 @@ class App extends React.Component {
   fetchWeather = async () => {
     if (this.state.location.length < 2)
       return this.setState({
-        error: "Location must be at least 2 characters long",
+        // error: "Location must be at least 2 characters long",
         weather: {},
       });
 
