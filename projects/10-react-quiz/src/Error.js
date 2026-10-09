@@ -1,7 +1,7 @@
-function Error() {
+function Error({ error }) {
   return (
     <p className="error">
-      <span>💥</span> There was an error fecthing questions.
+      <span>💥</span> {error ? error : "There was an error fecthing questions."}
     </p>
   );
 }

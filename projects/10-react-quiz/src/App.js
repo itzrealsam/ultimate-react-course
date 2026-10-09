@@ -1,6 +1,9 @@
 import { useEffect, useReducer } from "react";
 import Header from "./Header";
 import Main from "./Main";
+import Loader from "./Loader";
+import Error from "./Error";
+import StartScreen from "./StartScreen";
 
 const initialState = {
   questions: [],
@@ -22,6 +25,7 @@ function reducer(state, action) {
 export default function App() {
   const [state, dispatch] = useReducer(reducer, initialState);
   const { questions, status, error } = state;
+  const numQuestions = questions.length;
 
   useEffect(() => {
     const controller = new AbortController();
@@ -38,9 +42,15 @@ export default function App() {
         const data = await response.json();
         dispatch({ type: "dataReceived", payload: data });
       } catch (err) {
-        if (err.name !== "AbortError") {
-          dispatch({ type: "fetchFailed", payload: err.message });
+        // Catch both the standard AbortError name and the native string message
+        if (
+          err.name === "AbortError" ||
+          err.message.includes("signal is aborted")
+        ) {
+          return; // Do absolutely nothing if the request was intentionally cancelled
         }
+
+        dispatch({ type: "fetchFailed", payload: err.message });
       }
     }
 
@@ -54,14 +64,9 @@ export default function App() {
       <Header />
 
       <Main>
-        {status === "loading" && <p>Loading...</p>}
-        {status === "error" && <p>❌ Error: {error}</p>}
-        {status === "ready" && (
-          <>
-            <p>1/{questions?.length}</p>
-            <p>Question?</p>
-          </>
-        )}
+        {status === "loading" && <Loader />}
+        {status === "error" && <Error error={error} />}
+        {status === "ready" && <StartScreen numQuestions={numQuestions} />}
       </Main>
     </div>
   );
