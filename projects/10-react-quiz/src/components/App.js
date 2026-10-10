@@ -1,4 +1,5 @@
 import { useEffect, useReducer } from "react";
+
 import Header from "./Header";
 import Main from "./Main";
 import Loader from "./Loader";
@@ -8,6 +9,8 @@ import Question from "./Question";
 import NextButton from "./NextButton";
 import Progress from "./Progress";
 import FinishScreen from "./FinishScreen";
+import Footer from "./Footer";
+import Timer from "./Timer";
 
 const initialState = {
   questions: [],
@@ -15,46 +18,85 @@ const initialState = {
   selectedOptionIndex: null,
   points: 0,
   highscore: 0,
+  secondsRemaining: 300,
   status: "loading",
   error: "",
 };
 
+const SEC_PER_QUESTION = 30;
+
 function reducer(state, action) {
   switch (action.type) {
-    case "fetchFailed":
+    case "fetchFailed": {
       return { ...state, status: "error", error: action.payload };
-    case "dataReceived":
+    }
+    case "dataReceived": {
       return { ...state, questions: action.payload, status: "ready" };
-    case "quizStarted":
-      return { ...state, status: "active" };
-    case "optionSelected":
+    }
+    case "quizStarted": {
+      return {
+        ...state,
+        status: "active",
+        secondsRemaining: state.questions.length * SEC_PER_QUESTION,
+      };
+    }
+    case "optionSelected": {
+      if (state.selectedOptionIndex !== null) {
+        return state;
+      }
+
       const question = state.questions[state.questionIndex];
+      if (!question) {
+        return state;
+      }
+
       const isCorrect = question.correctOption === action.payload;
+
       return {
         ...state,
         selectedOptionIndex: action.payload,
         points: isCorrect ? state.points + question.points : state.points,
       };
-    case "nextQuestion":
+    }
+    case "nextQuestion": {
       return {
         ...state,
         questionIndex: state.questionIndex + 1,
         selectedOptionIndex: null,
       };
-    case "quizFinished":
+    }
+    case "quizFinished": {
       const newHighscore = state.points > state.highscore;
       return {
         ...state,
         status: "finished",
         highscore: newHighscore ? state.points : state.highscore,
       };
-    case "quizRestarted":
+    }
+    case "quizRestarted": {
       return {
         ...initialState,
         questions: state.questions,
         highscore: state.highscore,
         status: "ready",
       };
+    }
+    case "tick": {
+      if (state.status !== "active" || state.secondsRemaining <= 0) {
+        return state;
+      }
+
+      const secondsRemaining = state.secondsRemaining - 1;
+      const timerElapsed = secondsRemaining === 0;
+      const newHighscore = timerElapsed && state.points > state.highscore;
+
+      return {
+        ...state,
+        secondsRemaining,
+        status: timerElapsed ? "finished" : state.status,
+        highscore: newHighscore ? state.points : state.highscore,
+      };
+    }
     default:
       throw new Error("Action unknown");
   }
@@ -68,6 +110,7 @@ export default function App() {
     selectedOptionIndex,
     points,
     highscore,
+    secondsRemaining,
     status,
     error,
   } = state;
@@ -90,15 +133,17 @@ export default function App() {
         const data = await response.json();
         dispatch({ type: "dataReceived", payload: data });
       } catch (err) {
-        // Catch both the standard AbortError name and the native string message
-        if (
-          err.name === "AbortError" ||
-          err.message.includes("signal is aborted")
-        ) {
-          return; // Do absolutely nothing if the request was intentionally cancelled
+        if (err instanceof Error && err.name === "AbortError") {
+          return;
         }
 
-        dispatch({ type: "fetchFailed", payload: err.message });
+        dispatch({
+          type: "fetchFailed",
+          payload:
+            err instanceof Error
+              ? err.message
+              : "An unexpected error occurred while fetching questions",
+        });
       }
     }
 
@@ -131,13 +176,16 @@ export default function App() {
               selectedOptionIndex={selectedOptionIndex}
               dispatch={dispatch}
             />
-            <NextButton
-              questionIndex={questionIndex}
-              numQuestions={numQuestions}
-              selectedOptionIndex={selectedOptionIndex}
-              dispatch={dispatch}
-              status={status}
-            />
+            <Footer>
+              <Timer dispatch={dispatch} secondsRemaining={secondsRemaining} />
+              <NextButton
+                questionIndex={questionIndex}
+                numQuestions={numQuestions}
+                selectedOptionIndex={selectedOptionIndex}
+                dispatch={dispatch}
+                status={status}
+              />
+            </Footer>
           </>
         )}
         {status === "finished" && (

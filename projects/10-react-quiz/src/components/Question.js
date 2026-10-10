@@ -1,7 +1,7 @@
 import Options from "./Options";
 
 function Question({ question, selectedOptionIndex, dispatch }) {
-  const { question: questionText, options, correctOption, id } = question;
+  const { question: questionText, options, correctOption } = question;
 
   return (
     <div>
