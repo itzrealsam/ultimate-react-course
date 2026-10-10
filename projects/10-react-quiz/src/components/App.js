@@ -48,6 +48,13 @@ function reducer(state, action) {
         status: "finished",
         highscore: newHighscore ? state.points : state.highscore,
       };
+    case "quizRestarted":
+      return {
+        ...initialState,
+        questions: state.questions,
+        highscore: state.highscore,
+        status: "ready",
+      };
     default:
       throw new Error("Action unknown");
   }
@@ -129,6 +136,7 @@ export default function App() {
               numQuestions={numQuestions}
               selectedOptionIndex={selectedOptionIndex}
               dispatch={dispatch}
+              status={status}
             />
           </>
         )}
@@ -137,6 +145,7 @@ export default function App() {
             points={points}
             maxPoints={maxPoints}
             highscore={highscore}
+            dispatch={dispatch}
           />
         )}
       </Main>
