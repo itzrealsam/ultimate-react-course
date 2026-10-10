@@ -8,9 +8,11 @@ import Question from "./Question";
 
 const initialState = {
   questions: [],
-  index: 0,
+  questionIndex: 0,
+  selectedOptionIndex: null,
   status: "loading",
   error: "",
+  points: 0,
 };
 
 function reducer(state, action) {
@@ -21,6 +23,14 @@ function reducer(state, action) {
       return { ...state, questions: action.payload, status: "ready" };
     case "quizStarted":
       return { ...state, status: "active" };
+    case "optionSelected":
+      const question = state.questions[state.questionIndex];
+      const isCorrect = question.correctOption === action.payload;
+      return {
+        ...state,
+        selectedOptionIndex: action.payload,
+        points: isCorrect ? state.points + question.points : state.points,
+      };
     default:
       throw new Error("Action unknown");
   }
@@ -28,7 +38,8 @@ function reducer(state, action) {
 
 export default function App() {
   const [state, dispatch] = useReducer(reducer, initialState);
-  const { questions, index, status, error } = state;
+  const { questions, questionIndex, selectedOptionIndex, status, error } =
+    state;
   const numQuestions = questions.length;
 
   useEffect(() => {
@@ -73,7 +84,13 @@ export default function App() {
         {status === "ready" && (
           <StartScreen numQuestions={numQuestions} dispatch={dispatch} />
         )}
-        {status === "active" && <Question question={questions[index]} />}
+        {status === "active" && (
+          <Question
+            question={questions[questionIndex]}
+            selectedOptionIndex={selectedOptionIndex}
+            dispatch={dispatch}
+          />
+        )}
       </Main>
     </div>
   );

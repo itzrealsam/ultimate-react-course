@@ -1,13 +1,17 @@
 import Options from "./Options";
 
-function Question({ question }) {
-  console.log(question);
-  const { question: questionText, options, id } = question;
+function Question({ question, selectedOptionIndex, dispatch }) {
+  const { question: questionText, options, correctOption, id } = question;
 
   return (
     <div>
       <h3>{questionText}</h3>
-      <Options options={options} />
+      <Options
+        options={options}
+        correctOption={correctOption}
+        selectedOptionIndex={selectedOptionIndex}
+        dispatch={dispatch}
+      />
     </div>
   );
 }
