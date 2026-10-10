@@ -6,14 +6,15 @@ import Error from "./Error";
 import StartScreen from "./StartScreen";
 import Question from "./Question";
 import NextButton from "./NextButton";
+import Progress from "./Progress";
 
 const initialState = {
   questions: [],
   questionIndex: 0,
   selectedOptionIndex: null,
+  points: 0,
   status: "loading",
   error: "",
-  points: 0,
 };
 
 function reducer(state, action) {
@@ -45,9 +46,17 @@ function reducer(state, action) {
 
 export default function App() {
   const [state, dispatch] = useReducer(reducer, initialState);
-  const { questions, questionIndex, selectedOptionIndex, status, error } =
-    state;
+  const {
+    questions,
+    questionIndex,
+    selectedOptionIndex,
+    points,
+    status,
+    error,
+  } = state;
+
   const numQuestions = questions.length;
+  const maxPoints = questions.reduce((prev, cur) => prev + cur.points, 0);
 
   useEffect(() => {
     const controller = new AbortController();
@@ -93,6 +102,13 @@ export default function App() {
         )}
         {status === "active" && (
           <>
+            <Progress
+              questionIndex={questionIndex}
+              numQuestions={numQuestions}
+              selectedOptionIndex={selectedOptionIndex}
+              points={points}
+              maxPoints={maxPoints}
+            />
             <Question
               question={questions[questionIndex]}
               selectedOptionIndex={selectedOptionIndex}
