@@ -1,13 +1,13 @@
 {
   "files": {
     "main.css": "/ultimate-react-course/projects/create-react-apps/10-react-quiz/static/css/main.beb13c0a.css",
-    "main.js": "/ultimate-react-course/projects/create-react-apps/10-react-quiz/static/js/main.c6ba0842.js",
+    "main.js": "/ultimate-react-course/projects/create-react-apps/10-react-quiz/static/js/main.aab9fc52.js",
     "index.html": "/ultimate-react-course/projects/create-react-apps/10-react-quiz/index.html",
     "main.beb13c0a.css.map": "/ultimate-react-course/projects/create-react-apps/10-react-quiz/static/css/main.beb13c0a.css.map",
-    "main.c6ba0842.js.map": "/ultimate-react-course/projects/create-react-apps/10-react-quiz/static/js/main.c6ba0842.js.map"
+    "main.aab9fc52.js.map": "/ultimate-react-course/projects/create-react-apps/10-react-quiz/static/js/main.aab9fc52.js.map"
   },
   "entrypoints": [
     "static/css/main.beb13c0a.css",
-    "static/js/main.c6ba0842.js"
+    "static/js/main.aab9fc52.js"
   ]
 }
