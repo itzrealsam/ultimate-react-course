@@ -1,10 +1,10 @@
 {
   "files": {
-    "main.css": "/ultimate-react-course/projects/03-pizza-menu/static/css/main.ec313818.css",
-    "main.js": "/ultimate-react-course/projects/03-pizza-menu/static/js/main.de61cbfd.js",
-    "index.html": "/ultimate-react-course/projects/03-pizza-menu/index.html",
-    "main.ec313818.css.map": "/ultimate-react-course/projects/03-pizza-menu/static/css/main.ec313818.css.map",
-    "main.de61cbfd.js.map": "/ultimate-react-course/projects/03-pizza-menu/static/js/main.de61cbfd.js.map"
+    "main.css": "/ultimate-react-course/projects/create-react-apps/03-pizza-menu/static/css/main.ec313818.css",
+    "main.js": "/ultimate-react-course/projects/create-react-apps/03-pizza-menu/static/js/main.de61cbfd.js",
+    "index.html": "/ultimate-react-course/projects/create-react-apps/03-pizza-menu/index.html",
+    "main.ec313818.css.map": "/ultimate-react-course/projects/create-react-apps/03-pizza-menu/static/css/main.ec313818.css.map",
+    "main.de61cbfd.js.map": "/ultimate-react-course/projects/create-react-apps/03-pizza-menu/static/js/main.de61cbfd.js.map"
   },
   "entrypoints": [
     "static/css/main.ec313818.css",

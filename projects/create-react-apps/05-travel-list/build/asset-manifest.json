@@ -1,10 +1,10 @@
 {
   "files": {
-    "main.css": "/ultimate-react-course/projects/05-travel-list/static/css/main.10a2aefb.css",
-    "main.js": "/ultimate-react-course/projects/05-travel-list/static/js/main.77780008.js",
-    "index.html": "/ultimate-react-course/projects/05-travel-list/index.html",
-    "main.10a2aefb.css.map": "/ultimate-react-course/projects/05-travel-list/static/css/main.10a2aefb.css.map",
-    "main.77780008.js.map": "/ultimate-react-course/projects/05-travel-list/static/js/main.77780008.js.map"
+    "main.css": "/ultimate-react-course/projects/create-react-apps/05-travel-list/static/css/main.10a2aefb.css",
+    "main.js": "/ultimate-react-course/projects/create-react-apps/05-travel-list/static/js/main.77780008.js",
+    "index.html": "/ultimate-react-course/projects/create-react-apps/05-travel-list/index.html",
+    "main.10a2aefb.css.map": "/ultimate-react-course/projects/create-react-apps/05-travel-list/static/css/main.10a2aefb.css.map",
+    "main.77780008.js.map": "/ultimate-react-course/projects/create-react-apps/05-travel-list/static/js/main.77780008.js.map"
   },
   "entrypoints": [
     "static/css/main.10a2aefb.css",

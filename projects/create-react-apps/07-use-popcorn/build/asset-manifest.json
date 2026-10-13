@@ -1,10 +1,10 @@
 {
   "files": {
-    "main.css": "/ultimate-react-course/projects/07-use-popcorn/static/css/main.eba0190e.css",
-    "main.js": "/ultimate-react-course/projects/07-use-popcorn/static/js/main.aa952b2e.js",
-    "index.html": "/ultimate-react-course/projects/07-use-popcorn/index.html",
-    "main.eba0190e.css.map": "/ultimate-react-course/projects/07-use-popcorn/static/css/main.eba0190e.css.map",
-    "main.aa952b2e.js.map": "/ultimate-react-course/projects/07-use-popcorn/static/js/main.aa952b2e.js.map"
+    "main.css": "/ultimate-react-course/projects/create-react-apps/07-use-popcorn/static/css/main.eba0190e.css",
+    "main.js": "/ultimate-react-course/projects/create-react-apps/07-use-popcorn/static/js/main.aa952b2e.js",
+    "index.html": "/ultimate-react-course/projects/create-react-apps/07-use-popcorn/index.html",
+    "main.eba0190e.css.map": "/ultimate-react-course/projects/create-react-apps/07-use-popcorn/static/css/main.eba0190e.css.map",
+    "main.aa952b2e.js.map": "/ultimate-react-course/projects/create-react-apps/07-use-popcorn/static/js/main.aa952b2e.js.map"
   },
   "entrypoints": [
     "static/css/main.eba0190e.css",
