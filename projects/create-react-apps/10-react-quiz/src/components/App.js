@@ -126,10 +126,12 @@ export default function App() {
         // const response = await fetch("http://localhost:8000/questions", {
         //   signal: controller.signal,
         // });
-        const response = await fetch("./questions.json", {
-          signal: controller.signal,
-        }); // for GitHub Pages
-
+        const response = await fetch(
+          `${process.env.PUBLIC_URL}/data/questions.json`,
+          {
+            signal: controller.signal,
+          },
+        ); // for GitHub Pages
         if (!response.ok)
           throw new Error("Something went wrong with fetching questions");
 

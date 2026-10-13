@@ -5,9 +5,13 @@ function PageNav() {
     <nav>
       <ul>
         <li>
-          <NavLink to="/">Home</NavLink>
-          <NavLink to="/pricing">Pricing</NavLink>
-          <NavLink to="/product">Product</NavLink>
+          <NavLink to=".">Home</NavLink>
+        </li>
+        <li>
+          <NavLink to="pricing">Pricing</NavLink>
+        </li>
+        <li>
+          <NavLink to="product">Product</NavLink>
         </li>
       </ul>
     </nav>
