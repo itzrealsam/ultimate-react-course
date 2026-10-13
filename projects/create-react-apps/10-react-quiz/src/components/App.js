@@ -136,7 +136,7 @@ export default function App() {
           throw new Error("Something went wrong with fetching questions");
 
         const data = await response.json();
-        dispatch({ type: "dataReceived", payload: data });
+        dispatch({ type: "dataReceived", payload: data.questions });
       } catch (err) {
         if (err instanceof Error && err.name === "AbortError") {
           return;
