@@ -39,12 +39,29 @@ jobs:
 
       - name: Assemble Static Site Folder
         run: |
-          mkdir -p public/projects
+          mkdir -p public/projects/create-react-apps
+          mkdir -p public/projects/vite-apps
           cp index.html public/ 2>/dev/null || true
-          for dir in projects/*/; do
-            proj=$(basename "$dir")
-            if [ -d "$dir/build" ]; then
-              cp -r "$dir/build" "public/projects/$proj"
+
+          # Handle Create React App projects (output to 'build')
+          for dir in projects/create-react-apps/*/; do
+            if [ -d "$dir" ]; then
+              proj=$(basename "$dir")
+              if [ -d "$dir/build" ]; then
+                mkdir -p "public/projects/create-react-apps/$proj"
+                cp -r "$dir/build/"* "public/projects/create-react-apps/$proj/"
+              fi
+            fi
+          done
+
+          # Handle Vite projects (output to 'dist')
+          for dir in projects/vite-apps/*/; do
+            if [ -d "$dir" ]; then
+              proj=$(basename "$dir")
+              if [ -d "$dir/dist" ]; then
+                mkdir -p "public/projects/vite-apps/$proj"
+                cp -r "$dir/dist/"* "public/projects/vite-apps/$proj/"
+              fi
             fi
           done
 

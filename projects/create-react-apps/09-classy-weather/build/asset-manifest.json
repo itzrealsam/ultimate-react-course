@@ -1,0 +1,13 @@
+{
+  "files": {
+    "main.css": "/ultimate-react-course/projects/09-classy-weather/static/css/main.28420eaf.css",
+    "main.js": "/ultimate-react-course/projects/09-classy-weather/static/js/main.31263994.js",
+    "index.html": "/ultimate-react-course/projects/09-classy-weather/index.html",
+    "main.28420eaf.css.map": "/ultimate-react-course/projects/09-classy-weather/static/css/main.28420eaf.css.map",
+    "main.31263994.js.map": "/ultimate-react-course/projects/09-classy-weather/static/js/main.31263994.js.map"
+  },
+  "entrypoints": [
+    "static/css/main.28420eaf.css",
+    "static/js/main.31263994.js"
+  ]
+}

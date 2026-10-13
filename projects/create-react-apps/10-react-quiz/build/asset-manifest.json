@@ -1,0 +1,13 @@
+{
+  "files": {
+    "main.css": "/ultimate-react-course/projects/10-react-quiz/static/css/main.beb13c0a.css",
+    "main.js": "/ultimate-react-course/projects/10-react-quiz/static/js/main.6572aa39.js",
+    "index.html": "/ultimate-react-course/projects/10-react-quiz/index.html",
+    "main.beb13c0a.css.map": "/ultimate-react-course/projects/10-react-quiz/static/css/main.beb13c0a.css.map",
+    "main.6572aa39.js.map": "/ultimate-react-course/projects/10-react-quiz/static/js/main.6572aa39.js.map"
+  },
+  "entrypoints": [
+    "static/css/main.beb13c0a.css",
+    "static/js/main.6572aa39.js"
+  ]
+}

@@ -1,0 +1,13 @@
+{
+  "files": {
+    "main.css": "/ultimate-react-course/projects/08-how-react-works/static/css/main.c3b3c9ba.css",
+    "main.js": "/ultimate-react-course/projects/08-how-react-works/static/js/main.776cc626.js",
+    "index.html": "/ultimate-react-course/projects/08-how-react-works/index.html",
+    "main.c3b3c9ba.css.map": "/ultimate-react-course/projects/08-how-react-works/static/css/main.c3b3c9ba.css.map",
+    "main.776cc626.js.map": "/ultimate-react-course/projects/08-how-react-works/static/js/main.776cc626.js.map"
+  },
+  "entrypoints": [
+    "static/css/main.c3b3c9ba.css",
+    "static/js/main.776cc626.js"
+  ]
+}

@@ -2,6 +2,7 @@
   "name": "ultimate-react-course-monorepo",
   "private": true,
   "workspaces": [
-    "projects/*"
+    "projects/create-react-apps/*",
+    "projects/vite-apps/*"
   ]
 }
