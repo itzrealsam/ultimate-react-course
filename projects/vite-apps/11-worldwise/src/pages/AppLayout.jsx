@@ -8,7 +8,6 @@ function AppLayout() {
     <div className={styles.app}>
       <Sidebar />
       <Map />
-      <p>App</p>
     </div>
   );
 }
