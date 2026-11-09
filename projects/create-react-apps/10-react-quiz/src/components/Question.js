@@ -1,7 +1,13 @@
+import { useQuiz } from "../contexts/QuizContext";
 import Options from "./Options";
 
-function Question({ question, selectedOptionIndex, dispatch }) {
-  const { question: questionText, options, correctOption } = question;
+function Question() {
+  const { questions, questionIndex, selectedOptionIndex } = useQuiz();
+  const {
+    question: questionText,
+    options,
+    correctOption,
+  } = questions[questionIndex];
 
   return (
     <div>
@@ -10,7 +16,6 @@ function Question({ question, selectedOptionIndex, dispatch }) {
         options={options}
         correctOption={correctOption}
         selectedOptionIndex={selectedOptionIndex}
-        dispatch={dispatch}
       />
     </div>
   );
