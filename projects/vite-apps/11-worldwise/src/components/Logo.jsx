@@ -4,7 +4,11 @@ import { Link } from "react-router-dom";
 function Logo() {
   return (
     <Link to="/">
-      <img src="/logo.png" alt="WorldWise logo" className={styles.logo} />
+      <img
+        src={`${import.meta.env.BASE_URL}logo.png`}
+        alt="WorldWise logo"
+        className={styles.logo}
+      />
     </Link>
   );
 }
