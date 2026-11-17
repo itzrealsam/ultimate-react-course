@@ -4,5 +4,8 @@
   "workspaces": [
     "projects/create-react-apps/*",
     "projects/vite-apps/*"
-  ]
+  ],
+  "dependencies": {
+    "redux": "^5.0.1"
+  }
 }
